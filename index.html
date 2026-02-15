@@ -116,7 +116,7 @@
 
 <div id="login-screen">
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png" alt="Gengar" style="width: 80px;">
-    <h3 style="color:var(--neon-green); font-size: 14px;">AUXILIO GUX AND LAION</h3>
+    <h3 style="color:var(--neon-green); font-size: 14px;">AUXILIO LAION</h3>
     <input type="text" id="userKey" class="input-key" placeholder="DIGITE A KEY">
     <button class="inject-btn" onclick="validarAcesso()" style="border-radius: 5px;">ENTRAR</button>
 </div>
@@ -219,7 +219,7 @@
                     btn.style.background = "#00ff41";
                     
                     setTimeout(() => {
-                        window.location.href = "freefire://"; 
+                        window.location.href = "intent:#Intent;package=com.dts.freefireth;end"; 
                         btn.disabled = false;
                         btn.innerText = "INJETAR & ABRIR FF";
                     }, 1500);
