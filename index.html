@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gengar Panel - V.IP</title>
+    <style>
+        :root {
+            --neon-green: #00ff41;
+            --dark-bg: #050505;
+            --panel-bg: #111;
+            --tab-inactive: #222;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* TELA DE LOGIN */
+        #login-screen {
+            width: 320px;
+            background: var(--panel-bg);
+            border: 2px solid var(--neon-green);
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+        }
+
+        .input-key {
+            width: 90%;
+            background: #000;
+            border: 1px solid #444;
+            color: var(--neon-green);
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        /* PAINEL PRINCIPAL */
+        #main-panel {
+            display: none;
+            width: 400px;
+            background: var(--panel-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
+        }
+
+        .header { padding: 15px; text-align: center; background: rgba(0,0,0,0.3); }
+        .header img { width: 60px; filter: drop-shadow(0 0 5px #8000ff); }
+
+        .tabs { display: flex; background: var(--tab-inactive); }
+        .tab-btn {
+            flex: 1; padding: 12px; border: none; background: none;
+            color: #777; cursor: pointer; font-size: 10px; font-weight: bold;
+            text-transform: uppercase; border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            color: var(--neon-green); background: var(--panel-bg);
+            border-bottom: 2px solid var(--neon-green);
+        }
+
+        .tab-content { display: none; padding: 20px; height: 280px; overflow-y: auto; }
+        .tab-content.active { display: block; }
+
+        .section-title {
+            color: var(--neon-green); font-size: 12px; margin-bottom: 15px;
+            display: block; border-left: 3px solid var(--neon-green); padding-left: 8px;
+        }
+
+        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        /* Gerador de Sensi Styles */
+        .sensi-box {
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+        .sensi-item { display: flex; justify-content: space-between; margin: 5px 0; color: var(--neon-green); }
+
+        .switch { width: 40px; height: 20px; position: relative; display: inline-block; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333; border-radius: 20px; transition: .4s;
+        }
+        input:checked + .slider { background-color: var(--neon-green); }
+
+        .inject-btn {
+            width: 100%; background: var(--neon-green); color: black;
+            border: none; padding: 15px; font-weight: bold; cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .gen-btn {
+            background: #222; color: white; border: 1px solid var(--neon-green);
+            padding: 8px; width: 100%; cursor: pointer; border-radius: 5px; margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png" alt="Gengar" style="width: 80px;">
+    <h3 style="color:var(--neon-green); font-size: 14px;">AUXILIO GUX AND LAION</h3>
+    <input type="text" id="userKey" class="input-key" placeholder="DIGITE A KEY">
+    <button class="inject-btn" onclick="validarAcesso()" style="border-radius: 5px;">ENTRAR</button>
+</div>
+
+<div id="main-panel">
+    <div class="header">
+        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png" alt="Gengar">
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'aimbot')">Aimbot</button>
+        <button class="tab-btn" onclick="openTab(event, 'otimizacao')">Otimização</button>
+        <button class="tab-btn" onclick="openTab(event, 'sensi')">Gerar Sensi</button>
+    </div>
+
+    <div id="aimbot" class="tab-content active">
+        <span class="section-title">Ajustes de Aim</span>
+        <div class="row">
+            <span>Aimbot Injetar</span>
+            <label class="switch"><input type="checkbox" id="aimbotActive"><span class="slider"></span></label>
+        </div>
+        <label style="font-size: 11px;">FOV REGULÁVEL</label>
+        <input type="range" min="0" max="360" value="120">
+    </div>
+
+    <div id="otimizacao" class="tab-content">
+        <span class="section-title">Performance</span>
+        <div class="row"><span>FPS Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Limpar Cache</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Otimizar RAM</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Retirar InputLag</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Tempo de Resposta Rapido</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    </div>
+
+    <div id="sensi" class="tab-content">
+        <span class="section-title">Gerador de Sensibilidade</span>
+        <button class="gen-btn" onclick="gerarSensi()">GERAR NOVA SENSI</button>
+        <div class="sensi-box" id="sensiResult">
+            <p style="color: #666; text-align: center; font-size: 12px;">Clique no botão para gerar...</p>
+        </div>
+    </div>
+
+    <button class="inject-btn" id="btnInjetar" onclick="injetarFF()">INJETAR & ABRIR FF</button>
+</div>
+
+<script>
+    // 1. Lógica de Acesso
+    function validarAcesso() {
+        // Aceita "laion" ou "Laion"
+        const key = document.getElementById('userKey').value;
+        if(key.toLowerCase() === "laion") {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-panel').style.display = 'block';
+        } else {
+            alert("Key Incorreta!");
+        }
+    }
+
+    // 2. Troca de Abas
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // 3. Gerar Sensibilidade
+    function gerarSensi() {
+        const r = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+        const html = `
+            <div class="sensi-item"><span>GERAL:</span> <span>${r(90, 200)}</span></div>
+            <div class="sensi-item"><span>PONTO VERMELHO:</span> <span>${r(85, 200)}</span></div>
+            <div class="sensi-item"><span>MIRA 2X:</span> <span>${r(92, 200)}</span></div>
+            <div class="sensi-item"><span>MIRA 4X:</span> <span>${r(94, 200)}</span></div>
+            <div class="sensi-item"><span>AWM:</span> <span>${r(20, 50)}</span></div>
+            <div class="sensi-item" style="color:white; font-size:10px; margin-top:10px;">DPI SUGERIDA: ${r(400, 900)}</div>
+        `;
+        document.getElementById('sensiResult').innerHTML = html;
+    }
+
+    // 4. Lógica do Injetor com Barra de Progresso
+    function injetarFF() {
+        const isAimbot = document.getElementById('aimbotActive').checked;
+        
+        if(isAimbot) {
+            let btn = document.getElementById('btnInjetar');
+            btn.disabled = true;
+            btn.style.background = "#444";
+
+            let progresso = 0;
+            let intervalo = setInterval(() => {
+                progresso += Math.floor(Math.random() * 10) + 5;
+                if(progresso >= 100) {
+                    progresso = 100;
+                    clearInterval(intervalo);
+                    btn.innerText = "SUCESSO! ABRINDO FF...";
+                    btn.style.background = "#00ff41";
+                    
+                    setTimeout(() => {
+                        window.location.href = "freefire://"; 
+                        btn.disabled = false;
+                        btn.innerText = "INJETAR & ABRIR FF";
+                    }, 1500);
+                } else {
+                    btn.innerText = `INJETANDO... ${progresso}%`;
+                }
+            }, 150);
+
+        } else {
+            alert("Ative a opção 'Aimbot Injetar' na primeira aba primeiro!");
+        }
+    }
+</script>
+
+</body>
+</html>
