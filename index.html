@@ -3,149 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gengar Panel - V.IP</title>
+    <title>JOKER PANEL - V.IP</title>
     <style>
         :root {
-            --neon-green: #00ff41;
-            --dark-bg: #050505;
-            --panel-bg: #111;
-            --tab-inactive: #222;
+            --joker-purple: #6a0dad;
+            --joker-green: #4ade80;
+            --dark-bg: #0a0a0a;
+            --panel-bg: #1a1a1a;
+            --gray-text: #a0a0a0;
+            --border-color: #333;
         }
 
         body {
             background-color: var(--dark-bg);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
+
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* TELA DE LOGIN */
         #login-screen {
             width: 320px;
             background: var(--panel-bg);
-            border: 2px solid var(--neon-green);
-            padding: 30px;
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease;
         }
 
         .input-key {
-            width: 90%;
+            width: 100%;
             background: #000;
-            border: 1px solid #444;
-            color: var(--neon-green);
+            border: 1px solid #333;
+            color: white;
             padding: 12px;
             text-align: center;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            margin: 20px 0;
+            border-radius: 8px;
             outline: none;
+            transition: 0.3s;
         }
+        .input-key:focus { border-color: var(--joker-purple); }
 
         /* PAINEL PRINCIPAL */
         #main-panel {
             display: none;
-            width: 400px;
+            width: 420px;
             background: var(--panel-bg);
-            border: 2px solid var(--neon-green);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
         }
 
-        .header { padding: 15px; text-align: center; background: rgba(0,0,0,0.3); }
-        .header img { width: 60px; filter: drop-shadow(0 0 5px #8000ff); }
+        .header { padding: 20px; text-align: center; background: #111; border-bottom: 1px solid #222; }
+        .header img { width: 70px; filter: grayscale(1) brightness(1.2); }
 
-        .tabs { display: flex; background: var(--tab-inactive); }
+        .tabs { display: flex; background: #151515; }
         .tab-btn {
-            flex: 1; padding: 12px; border: none; background: none;
-            color: #777; cursor: pointer; font-size: 10px; font-weight: bold;
-            text-transform: uppercase; border-bottom: 2px solid transparent;
+            flex: 1; padding: 15px; border: none; background: none;
+            color: #555; cursor: pointer; font-size: 11px; font-weight: bold;
+            text-transform: uppercase; transition: 0.3s;
         }
-        .tab-btn.active {
-            color: var(--neon-green); background: var(--panel-bg);
-            border-bottom: 2px solid var(--neon-green);
-        }
+        .tab-btn.active { color: white; border-bottom: 2px solid var(--joker-purple); background: #1a1a1a; }
 
-        .tab-content { display: none; padding: 20px; height: 280px; overflow-y: auto; }
+        .tab-content { display: none; padding: 25px; height: 320px; overflow-y: auto; }
         .tab-content.active { display: block; }
 
         .section-title {
-            color: var(--neon-green); font-size: 12px; margin-bottom: 15px;
-            display: block; border-left: 3px solid var(--neon-green); padding-left: 8px;
+            color: var(--gray-text); font-size: 11px; margin-bottom: 20px;
+            display: block; border-left: 2px solid var(--joker-purple); padding-left: 10px;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
-        /* Gerador de Sensi Styles */
-        .sensi-box {
-            background: #000;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            font-family: monospace;
-            margin-top: 10px;
-        }
-        .sensi-item { display: flex; justify-content: space-between; margin: 5px 0; color: var(--neon-green); }
+        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .row span { font-size: 14px; color: #ccc; }
 
-        .switch { width: 40px; height: 20px; position: relative; display: inline-block; }
+        /* SWITCH */
+        .switch { width: 34px; height: 18px; position: relative; display: inline-block; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333; border-radius: 20px; transition: .4s;
+            background-color: #333; border-radius: 20px; transition: .3s;
         }
-        input:checked + .slider { background-color: var(--neon-green); }
+        input:checked + .slider { background-color: var(--joker-purple); }
+        .slider:before {
+            position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .slider:before { transform: translateX(16px); }
 
         .inject-btn {
-            width: 100%; background: var(--neon-green); color: black;
-            border: none; padding: 15px; font-weight: bold; cursor: pointer;
-            text-transform: uppercase;
+            width: 100%; background: #fff; color: black;
+            border: none; padding: 16px; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; font-size: 12px; transition: 0.3s;
+            border-radius: 5px;
         }
+        .inject-btn:hover { background: #ccc; }
 
         .gen-btn {
-            background: #222; color: white; border: 1px solid var(--neon-green);
-            padding: 8px; width: 100%; cursor: pointer; border-radius: 5px; margin-bottom: 10px;
+            background: transparent; color: white; border: 1px solid #444;
+            padding: 10px; width: 100%; cursor: pointer; border-radius: 5px; margin-bottom: 10px;
         }
+
+        .sensi-box { background: #111; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-top: 10px; }
+        .sensi-item { display: flex; justify-content: space-between; margin: 8px 0; color: #fff; font-size: 13px; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png" alt="Gengar" style="width: 80px;">
-    <h3 style="color:var(--neon-green); font-size: 14px;">AUXILIO LAION</h3>
-    <input type="text" id="userKey" class="input-key" placeholder="DIGITE A KEY">
-    <button class="inject-btn" onclick="validarAcesso()" style="border-radius: 5px;">ENTRAR</button>
+<div id="login-screen" class="fade-in">
+    <img src="https://cdn-icons-png.flaticon.com/512/1122/1122513.png" alt="Joker Icon" style="width: 60px; filter: invert(1);">
+    <h2 style="color:white; font-size: 18px; letter-spacing: 2px; margin-top: 15px;">SYSTEM ACCESS</h2>
+    <p style="color: #666; font-size: 12px;">Seja bem-vindo. Identifique-se.</p>
+    <input type="text" id="userKey" class="input-key" placeholder="CHAVE DE ACESSO">
+    <button class="inject-btn" onclick="validarAcesso()">INICIAR SESSÃO</button>
 </div>
 
-<div id="main-panel">
+<div id="main-panel" class="fade-in">
     <div class="header">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png" alt="Gengar">
+        <img src="https://cdn-icons-png.flaticon.com/512/1122/1122513.png" alt="Joker">
+        <div style="font-size: 10px; color: var(--joker-purple); margin-top: 5px; font-weight: bold;">JOKER ELITE v2.0</div>
     </div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'aimbot')">Aimbot</button>
-        <button class="tab-btn" onclick="openTab(event, 'otimizacao')">Otimização</button>
-        <button class="tab-btn" onclick="openTab(event, 'sensi')">Gerar Sensi</button>
+        <button class="tab-btn" onclick="openTab(event, 'otimizacao')">Performance</button>
+        <button class="tab-btn" onclick="openTab(event, 'sensi')">Config</button>
     </div>
 
     <div id="aimbot" class="tab-content active">
-        <span class="section-title">Ajustes de Aim</span>
-        <div class="row">
-            <span>Aimbot Injetar</span>
-            <label class="switch"><input type="checkbox" id="aimbotActive"><span class="slider"></span></label>
-        </div>
-        <label style="font-size: 11px;">FOV REGULÁVEL</label>
-        <input type="range" min="0" max="360" value="120">
+        <span class="section-title">Ajustes de Combate</span>
+        <div class="row"><span>Aimbot Headshot</span><label class="switch"><input type="checkbox" id="aimbotActive"><span class="slider"></span></label></div>
+        <div class="row"><span>Aim Lock (Suave)</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Ignorar Derrubados</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        
+        <label style="font-size: 10px; color: #555;">CAMPO DE VISÃO (FOV)</label>
+        <input type="range" min="0" max="360" value="90" style="width: 100%; accent-color: var(--joker-purple); margin-top: 10px;">
     </div>
 
     <div id="otimizacao" class="tab-content">
-        <span class="section-title">Performance</span>
-        <div class="row"><span>FPS Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-        <div class="row"><span>Limpar Cache</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <span class="section-title">Otimização do Sistema</span>
+        <div class="row"><span>Regedit VIP Ativa</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Reduzir Ping (DNS)</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Limpar Logs da Garena</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>GPU Boost (Turbo)</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Anti-Lag Estático</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+        <div class="row"><span>Forçar 90 FPS</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    </div>
+
+    <div id="sensi" class="tab-content">
+        <span class="section-title">Calibrador de Sensibilidade</span>
+        <button class="gen-btn" onclick="gerarSensi()">GERAR CONFIGURAÇÃO</button>
+        <div class="sensi-box" id="sensiResult">
+            <p style="color: #444; text-align: center; font-size: 12px;">Aguardando geração...</p>
+        </div>
+    </div>
+
+    <button class="inject-btn" id="btnInjetar" onclick="injetarFF()">APLICAR ALTERAÇÕES</button>
+</div>
+
+<script>
+    function validarAcesso() {
+        const key = document.getElementById('userKey').value.toLowerCase().trim();
+        
+        // LOGIN MULTIPLO: laion OU bemcalmo
+        if(key === "laion" || key === "bemcalmo") {
+            const login = document.getElementById('login-screen');
+            login.style.opacity = '0';
+            setTimeout(() => {
+                login.style.display = 'none';
+                const main = document.getElementById('main-panel');
+                main.style.display = 'block';
+            }, 500);
+        } else {
+            alert("Acesso Negado. Chave Inválida.");
+        }
+    }
+
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function gerarSensi() {
+        const r = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+        const html = `
+            <div class="sensi-item"><span>GERAL:</span> <span style="color:var(--joker-purple)">${r(92, 100)}</span></div>
+            <div class="sensi-item"><span>RED DOT:</span> <span style="color:var(--joker-purple)">${r(88, 98)}</span></div>
+            <div class="sensi-item"><span>MIRA 2X:</span> <span style="color:var(--joker-purple)">${r(90, 100)}</span></div>
+            <div class="sensi-item"><span>MIRA 4X:</span> <span style="color:var(--joker-purple)">${r(94, 100)}</span></div>
+            <div class="sensi-item" style="border-top: 1px solid #222; padding-top:10px; margin-top:10px;">
+                <span>DPI:</span> <span style="color:var(--joker-green)">${r(440, 800)}</span>
+            </div>
+        `;
+        document.getElementById('sensiResult').innerHTML = html;
+    }
+
+    function injetarFF() {
+        const isAimbot = document.getElementById('aimbotActive').checked;
+        
+        if(isAimbot) {
+            let btn = document.getElementById('btnInjetar');
+            btn.disabled = true;
+            btn.style.background = "#222";
+
+            let progresso = 0;
+            let intervalo = setInterval(() => {
+                progresso += Math.floor(Math.random() * 8) + 2;
+                if(progresso >= 100) {
+                    progresso = 100;
+                    clearInterval(intervalo);
+                    btn.innerText = "BYPASS ATIVO! ABRINDO...";
+                    btn.style.color = "var(--joker-green)";
+                    
+                    setTimeout(() => {
+                        window.location.href = "intent:#Intent;package=com.dts.freefireth;end"; 
+                        btn.disabled = false;
+                        btn.innerText = "APLICAR ALTERAÇÕES";
+                        btn.style.color = "black";
+                        btn.style.background = "white";
+                    }, 2000);
+                } else {
+                    btn.innerText = `PROCESSANDO MODULOS: ${progresso}%`;
+                }
+            }, 100);
+
+        } else {
+            alert("Ative a opção 'Aimbot Headshot' para prosseguir!");
+        }
+    }
+</script>
+
+</body>
+</html>        <div class="row"><span>Limpar Cache</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
         <div class="row"><span>Otimizar RAM</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
         <div class="row"><span>Retirar InputLag</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
         <div class="row"><span>Tempo de Resposta Rapido</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
